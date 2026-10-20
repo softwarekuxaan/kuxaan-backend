@@ -64,8 +64,23 @@ model Proyecto {
   asignaciones Asignacion[]
   registros    RegistroHoras[]
   evidencias   Evidencia[]
+  enlaces      Enlace[]
 
   @@map("proyectos")
+}
+
+// Tabla enlaces: recursos externos (por ejemplo Google Drive) vinculados a
+// un proyecto. Permite adjuntar mas de un enlace por proyecto.
+model Enlace {
+  idEnlace      Int      @id @default(autoincrement()) @map("id_enlace")
+  idProyecto    Int      @map("id_proyecto")
+  titulo        String   @db.VarChar(150)
+  url           String   @db.VarChar(500)
+  fechaCreacion DateTime @default(now()) @map("fecha_creacion")
+
+  proyecto Proyecto @relation(fields: [idProyecto], references: [idProyecto], onDelete: Cascade)
+
+  @@map("enlaces")
 }
 
 // Tabla asignaciones: vincula a un estudiante con un proyecto.

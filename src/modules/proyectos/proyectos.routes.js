@@ -21,6 +21,20 @@ proyectosRouter.get(
   envolverAsync(proyectosController.estudiantesDeProyecto)
 );
 
+// Enlaces externos (Google Drive) del proyecto. El service filtra por rol:
+// el estudiante solo ve los de sus propios proyectos.
+proyectosRouter.get(
+  "/:id/links",
+  envolverAsync(proyectosController.listarEnlacesDeProyecto)
+);
+
+proyectosRouter.post(
+  "/:id/links",
+  autorizarRoles(ROLES.ADMINISTRADOR),
+  validarCamposRequeridos(["titulo", "url"]),
+  envolverAsync(proyectosController.crearEnlace)
+);
+
 proyectosRouter.post(
   "/",
   autorizarRoles(ROLES.ADMINISTRADOR),

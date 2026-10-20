@@ -1,5 +1,6 @@
 ﻿// Controller del modulo de proyectos.
 const proyectosService = require("./proyectos.service");
+const enlacesService = require("../enlaces/enlaces.service");
 const { enviarExito } = require("../../utils/respuestas");
 const obtenerIdNumerico = require("../../utils/parametros");
 
@@ -18,6 +19,21 @@ async function estudiantesDeProyecto(peticion, respuesta) {
   const idProyecto = obtenerIdNumerico(peticion.params.id, "idProyecto");
   const estudiantes = await proyectosService.obtenerEstudiantesDeProyecto(idProyecto);
   return enviarExito(respuesta, estudiantes);
+}
+
+async function listarEnlacesDeProyecto(peticion, respuesta) {
+  const idProyecto = obtenerIdNumerico(peticion.params.id, "idProyecto");
+  const listaEnlaces = await enlacesService.obtenerEnlacesDeProyecto(
+    idProyecto,
+    peticion.usuario
+  );
+  return enviarExito(respuesta, listaEnlaces);
+}
+
+async function crearEnlace(peticion, respuesta) {
+  const idProyecto = obtenerIdNumerico(peticion.params.id, "idProyecto");
+  const enlaceCreado = await enlacesService.registrarEnlace(idProyecto, peticion.body);
+  return enviarExito(respuesta, enlaceCreado, 201, "Enlace registrado correctamente");
 }
 
 async function crearProyecto(peticion, respuesta) {
@@ -44,6 +60,8 @@ module.exports = {
   listarProyectos,
   obtenerProyecto,
   estudiantesDeProyecto,
+  listarEnlacesDeProyecto,
+  crearEnlace,
   crearProyecto,
   actualizarProyecto,
   eliminarProyecto,

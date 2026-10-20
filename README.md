@@ -89,6 +89,8 @@ npm run prisma:deploy
 | GET/POST | `/api/evidence` | Admin y Estudiante |
 | GET | `/api/evidence/:id/file` | Admin y dueño de la evidencia |
 | DELETE | `/api/evidence/:id` | Administrador |
+| GET/POST | `/api/projects/:id/links` | Autenticado (estudiante: solo sus proyectos) / Administrador |
+| DELETE | `/api/links/:id` | Administrador |
 | GET | `/api/reports/{students,projects,hours,evidence,general}` | Administrador |
 | GET | `/api/dashboard/stats` | Administrador |
 
